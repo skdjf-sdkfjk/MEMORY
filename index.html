@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
+
 <meta charset="UTF-8">
-<title>MEMORY_RECOVERY.exe</title>
+<title>Memory Reconstruction</title>
 
 <style>
 
@@ -13,9 +14,10 @@ box-sizing:border-box;
 body{
 margin:0;
 height:100vh;
-background:#050014;
-color:#8ee7ff;
-font-family:"Courier New",monospace;
+background:
+radial-gradient(circle at center,#172554,#020617 60%);
+font-family:'Segoe UI',sans-serif;
+color:#dbeafe;
 display:flex;
 justify-content:center;
 align-items:center;
@@ -23,117 +25,125 @@ overflow:hidden;
 }
 
 
+/* 홀로그램 빛 */
+
 body:before{
 content:"";
-position:fixed;
-inset:0;
-background:
-linear-gradient(
-rgba(80,150,255,.08) 1px,
-transparent 1px
-);
-background-size:100% 4px;
-pointer-events:none;
+position:absolute;
+width:600px;
+height:600px;
+border-radius:50%;
+background:#38bdf8;
+filter:blur(150px);
+opacity:.15;
 }
 
 
 
-.terminal{
+/* 메인 AR 공간 */
 
-width:800px;
-height:520px;
-background:#090018;
-border:2px solid #8ee7ff;
+.ar{
+width:850px;
+height:600px;
+position:relative;
+}
+
+
+
+/* 중앙 홀로그램 */
+
+.holo{
+
+position:absolute;
+left:50%;
+top:50%;
+transform:translate(-50%,-50%);
+
+width:330px;
+height:330px;
+
+border-radius:50%;
+
+border:2px solid #38bdf8;
+
 box-shadow:
-0 0 25px #5b6cff;
-padding:20px;
+0 0 40px #38bdf8,
+inset 0 0 50px #38bdf8;
+
+animation:rotate 8s linear infinite;
 
 }
 
 
 
-.header{
+@keyframes rotate{
 
-background:#8ee7ff;
-color:#090018;
-padding:10px;
-font-weight:bold;
+from{
+transform:translate(-50%,-50%) rotate(0deg);
+}
+
+to{
+transform:translate(-50%,-50%) rotate(360deg);
+}
 
 }
 
 
 
-.menu{
+/* UI 패널 */
 
-margin-top:15px;
-border-bottom:1px solid #8ee7ff;
-padding-bottom:10px;
+.panel{
 
-}
+position:absolute;
 
+background:rgba(15,23,42,.65);
 
+backdrop-filter:blur(15px);
 
-.menu span{
+border:1px solid rgba(56,189,248,.5);
 
-margin-right:25px;
+border-radius:20px;
 
-}
+padding:25px;
 
-
-
-.content{
-
-display:flex;
-height:380px;
-margin-top:20px;
+box-shadow:0 0 30px rgba(56,189,248,.2);
 
 }
 
 
 
-.files{
+.left{
+left:0;
+top:80px;
+width:230px;
+}
 
-width:35%;
-border-right:1px solid #8ee7ff;
-padding:15px;
+
+.right{
+right:0;
+top:120px;
+width:230px;
+}
+
+
+
+.title{
+
+position:absolute;
+top:30px;
+left:50%;
+transform:translateX(-50%);
+
+font-size:28px;
+letter-spacing:4px;
 
 }
 
 
 
-.file{
+.status{
 
-padding:12px;
-cursor:pointer;
-border:1px solid transparent;
-
-}
-
-
-
-.file:hover{
-
-border:1px solid #8ee7ff;
-background:#11102b;
-
-}
-
-
-
-.main{
-
-flex:1;
-padding:20px;
-
-}
-
-
-
-.card{
-
-border:1px solid #8ee7ff;
-padding:20px;
-margin-bottom:20px;
+color:#38bdf8;
 
 }
 
@@ -141,19 +151,53 @@ margin-bottom:20px;
 
 button{
 
-background:transparent;
-border:1px solid #8ee7ff;
-color:#8ee7ff;
+margin-top:20px;
+
 padding:12px 30px;
+
+border-radius:30px;
+
+border:1px solid #38bdf8;
+
+background:transparent;
+
+color:#dbeafe;
+
 cursor:pointer;
 
 }
 
 
+
 button:hover{
 
-background:#8ee7ff;
-color:#090018;
+background:#38bdf8;
+
+color:#020617;
+
+}
+
+
+
+.scan{
+
+position:absolute;
+
+bottom:50px;
+
+left:50%;
+
+transform:translateX(-50%);
+
+width:350px;
+
+height:6px;
+
+background:#1e293b;
+
+border-radius:10px;
+
+overflow:hidden;
 
 }
 
@@ -161,71 +205,56 @@ color:#090018;
 
 .progress{
 
-height:15px;
-border:1px solid #8ee7ff;
-margin-top:20px;
-
-}
-
-
-
-.bar{
-
 height:100%;
+
 width:0%;
-background:#8ee7ff;
+
+background:#38bdf8;
 
 }
 
 
 
-#restore,
-#complete{
+#result{
 
 display:none;
 
-}
+position:absolute;
 
+inset:0;
 
+background:rgba(2,6,23,.8);
 
-.fragment{
+backdrop-filter:blur(10px);
 
-font-size:30px;
-color:white;
-animation:float 1s infinite alternate;
+align-items:center;
 
-}
+justify-content:center;
 
+flex-direction:column;
 
-
-@keyframes float{
-
-from{
-opacity:.5;
-}
-
-to{
-opacity:1;
-}
+text-align:center;
 
 }
 
 
 
-.future{
+.resultText{
 
-font-size:32px;
-color:#fff;
-animation:blink 1s infinite;
+font-size:40px;
+
+color:#38bdf8;
+
+animation:pulse 1.5s infinite;
 
 }
 
 
 
-@keyframes blink{
+@keyframes pulse{
 
 50%{
-opacity:0;
+opacity:.4;
 }
 
 }
@@ -236,232 +265,162 @@ opacity:0;
 
 </head>
 
+
 <body>
 
 
-<div class="terminal">
+<div class="ar">
 
 
-<div class="header">
-MEMORY_RECOVERY.exe
-</div>
-
-
-<div class="menu">
-
-FILE &nbsp;&nbsp;
-MEMORY &nbsp;&nbsp;
-ARCHIVE &nbsp;&nbsp;
-SYSTEM
-
+<div class="title">
+MEMORY RECONSTRUCTION SYSTEM
 </div>
 
 
 
-<div class="content">
+<div class="holo"></div>
 
 
-<div class="files">
 
+<div class="panel left">
 
 <h3>
-MEMORY STORAGE
+NEURAL SCAN
 </h3>
 
 
-<div class="file" onclick="openFile(1)">
-📁 FRAGMENT_001
-</div>
-
-
-<div class="file" onclick="openFile(2)">
-📁 FRAGMENT_002
-</div>
-
-
-<div class="file" onclick="openFile(3)">
-📁 UNKNOWN_MEMORY
-</div>
-
-
-
-</div>
-
-
-
-
-<div class="main">
-
-
-<div class="card" id="start">
-
-
-<h2>
-MEMORY DATABASE
-</h2>
-
-
 <p>
-Lost memories detected.
+Connection
+</p>
+
+<p class="status">
+● STABLE
 </p>
 
 
 <p>
-Select a fragment.
-</p>
-
-
-</div>
-
-
-
-<div class="card" id="restore">
-
-
-<h2>
-RESTORING MEMORY
-</h2>
-
-
-<div class="fragment">
-
-MEMORY FRAGMENT
-
-</div>
-
-
-<p id="info">
-Connecting data...
-</p>
-
-
-<div class="progress">
-
-<div class="bar" id="bar"></div>
-
-</div>
-
-
-</div>
-
-
-
-
-<div class="card" id="complete">
-
-
-<h1 class="future">
-
-RECOVERY COMPLETE
-
-</h1>
-
-
-<p>
-
-FILE : FIRST_CONTACT.dat
-
+Emotion Data
+<br>
+82%
 </p>
 
 
 <p>
-
-DATE : UNKNOWN
-
+Visual Data
+<br>
+91%
 </p>
+
+
+</div>
+
+
+
+
+
+<div class="panel right">
+
+
+<h3>
+MEMORY DATA
+</h3>
+
+
+<p>
+Fragment : 01</p>
+
+<p>
+Location :
+UNKNOWN
+</p>
+
+
+<p>
+Date :
+HIDDEN
+</p>
+
+
+<button onclick="start()">
+
+RECONSTRUCT
+
+</button>
+
+
+</div>
+
+
+
+
+
+<div class="scan">
+
+<div class="progress" id="progress">
+
+</div>
+
+</div>
+
+
+
+
+
+<div id="result">
+
+
+<div class="resultText">
+
+MEMORY RESTORED
+
+</div>
 
 
 <br>
 
 
-<h3>
+<p>
 
-THIS MEMORY BELONGS TO THE FUTURE.
+A memory has been recovered.
 
-</h3>
+</p>
+
+
+<p>
+
+But this memory belongs to the future.
+
+</p>
+
+
+</div>
+
 
 
 </div>
 
 
-
-</div>
-
-
-</div>
-
-
-
-</div>
 
 
 
 <script>
 
 
-let selected=false;
+function start(){
 
 
-function openFile(num){
-
-
-if(selected)return;
-
-selected=true;
-
-
-document.getElementById("start").style.display="none";
-
-document.getElementById("restore").style.display="block";
-
-
-
-let bar=document.getElementById("bar");
-
-let info=document.getElementById("info");
-
+let bar=document.getElementById("progress");
 
 let value=0;
-
 
 
 let timer=setInterval(()=>{
 
 
-value+=5;
+value+=2;
 
 
 bar.style.width=value+"%";
-
-
-
-if(value<30){
-
-info.innerHTML=
-"Searching memory fragments...";
-
-}
-
-else if(value<60){
-
-info.innerHTML=
-"Rebuilding deleted data...";
-
-}
-
-else if(value<90){
-
-info.innerHTML=
-"Connecting unknown memories...";
-
-}
-
-else{
-
-info.innerHTML=
-"WARNING : Future data detected.";
-
-}
 
 
 
@@ -471,22 +430,23 @@ if(value>=100){
 clearInterval(timer);
 
 
+
 setTimeout(()=>{
 
 
-document.getElementById("restore").style.display="none";
+document.getElementById("result")
+.style.display="flex";
 
-document.getElementById("complete").style.display="block";
 
+},800);
 
-},1000);
 
 
 }
 
 
 
-},300);
+},50);
 
 
 
