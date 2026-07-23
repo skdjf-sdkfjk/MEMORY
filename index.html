@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+
+<meta charset="UTF-8">
+<title>MEMORY_RECOVERY.exe</title>
+
+<style>
+
+*{
+box-sizing:border-box;
+}
+
+body{
+margin:0;
+height:100vh;
+background:#000;
+color:#00ff88;
+font-family:"Courier New",monospace;
+display:flex;
+align-items:center;
+justify-content:center;
+overflow:hidden;
+}
+
+
+body:before{
+content:"";
+position:fixed;
+inset:0;
+background:
+repeating-linear-gradient(
+0deg,
+rgba(0,255,120,.05),
+rgba(0,255,120,.05) 1px,
+transparent 2px
+);
+pointer-events:none;
+}
+
+
+
+.screen{
+
+width:750px;
+height:500px;
+background:#050505;
+border:3px solid #00ff88;
+padding:20px;
+box-shadow:0 0 30px #00ff88;
+
+}
+
+
+
+.title{
+
+background:#00ff88;
+color:#000;
+padding:10px;
+font-weight:bold;
+
+}
+
+
+
+.window{
+
+text-align:center;
+margin-top:50px;
+
+}
+
+
+
+button{
+
+background:#000;
+color:#00ff88;
+border:2px solid #00ff88;
+padding:15px 40px;
+font-family:inherit;
+font-size:18px;
+cursor:pointer;
+
+}
+
+
+button:hover{
+
+background:#00ff88;
+color:#000;
+
+}
+
+
+
+.bar{
+
+width:80%;
+height:20px;
+border:1px solid #00ff88;
+margin:30px auto;
+
+}
+
+
+
+.progress{
+
+width:0%;
+height:100%;
+background:#00ff88;
+
+}
+
+
+
+#scan,
+#warning,
+#final{
+
+display:none;
+
+}
+
+
+
+.warning{
+
+color:red;
+font-size:40px;
+animation:blink .2s infinite;
+
+}
+
+
+
+.glitch{
+
+animation:glitch .15s infinite;
+
+}
+
+
+
+@keyframes blink{
+
+50%{
+opacity:0;
+}
+
+}
+
+
+
+@keyframes glitch{
+
+0%{
+transform:translate(3px);
+text-shadow:5px 0 red;
+}
+
+50%{
+transform:translate(-4px);
+text-shadow:-5px 0 blue;
+}
+
+100%{
+transform:translate(0);
+}
+
+}
+
+
+
+.danger{
+
+animation:shake .1s infinite;
+
+}
+
+
+
+@keyframes shake{
+
+0%{
+transform:translate(3px);
+}
+
+50%{
+transform:translate(-3px);
+}
+
+100%{
+transform:translate(0);
+}
+
+}
+
+
+
+.fake{
+
+position:absolute;
+border:2px solid red;
+background:black;
+color:red;
+padding:15px;
+box-shadow:0 0 20px red;
+
+}
+
+
+
+.finalText{
+
+font-size:30px;
+color:white;
+animation:blink 1s infinite;
+
+}
+
+
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<div class="screen">
+
+
+<div class="title">
+
+MEMORY_RECOVERY.exe
+
+</div>
+
+
+
+<div class="window" id="home">
+
+
+<h1>
+MEMORY RECOVERY SYSTEM
+</h1>
+
+
+<p>
+Deleted memories may be recovered.
+</p>
+
+
+<button onclick="startRecovery()">
+
+START RECOVERY
+
+</button>
+
+
+</div>
+
+
+
+
+<div class="window" id="scan">
+
+
+<h2>
+Recovering Memory...
+</h2>
+
+
+<p id="status">
+
+Searching deleted files...
+
+</p>
+
+
+<div class="bar">
+
+<div class="progress" id="progress">
+
+</div>
+
+</div>
+
+
+</div>
+
+
+
+
+
+<div class="window" id="warning">
+
+
+<h1 class="warning">
+
+WARNING
+
+</h1>
+
+
+<h2>
+
+UNKNOWN MEMORY FOUND
+
+</h2>
+
+
+<p>
+
+This file was deleted intentionally.
+
+</p>
+
+
+<p>
+
+Continue recovery?
+
+</p>
+
+
+<button onclick="continueRecovery()">
+
+YES
+
+</button>
+
+
+</div>
+
+
+
+
+
+
+<div class="window" id="final">
+
+
+<h1 class="finalText glitch">
+
+MEMORY RESTORED
+
+</h1>
+
+
+<p>
+
+The past was not deleted.
+
+</p>
+
+
+<p>
+
+It was hidden.
+
+</p>
+
+
+<br>
+
+
+<h2>
+
+WELCOME BACK.
+
+</h2>
+
+
+</div>
+
+
+
+
+</div>
+
+
+
+
+
+<script>
+
+
+let progress=document.getElementById("progress");
+
+let status=document.getElementById("status");
+
+
+function startRecovery(){
+
+
+home.style.display="none";
+
+scan.style.display="block";
+
+
+let count=0;
+
+
+
+let timer=setInterval(()=>{
+
+
+count+=Math.random()*8;
+
+
+progress.style.width=count+"%";
+
+
+
+if(count<30){
+
+status.innerHTML=
+"Searching deleted memories...";
+
+}
+
+
+else if(count<60){
+
+status.innerHTML=
+"Finding memory fragments...";
+
+}
+
+
+else if(count<90){
+
+status.innerHTML=
+"WARNING : Unknown file detected";
+
+}
+
+
+else{
+
+status.innerHTML=
+"Recovering forbidden memory...";
+
+}
+
+
+
+if(count>=100){
+
+
+clearInterval(timer);
+
+
+
+setTimeout(()=>{
+
+
+scan.style.display="none";
+
+warning.style.display="block";
+
+
+},1200);
+
+
+
+}
+
+
+
+},300);
+
+
+}
+
+
+
+
+function continueRecovery(){
+
+
+warning.style.display="none";
+
+
+document.body.classList.add("danger");
+
+
+
+let messages=[
+
+"MEMORY FILE CORRUPTED",
+
+"UNKNOWN DATA FOUND",
+
+"ACCESSING HIDDEN PAST",
+
+"FILE SHOULD NOT EXIST",
+
+"RECOVERY FAILED"
+
+];
+
+
+
+for(let i=0;i<6;i++){
+
+
+let box=document.createElement("div");
+
+
+box.className="fake";
+
+
+box.innerHTML=
+messages[Math.floor(Math.random()*messages.length)];
+
+
+box.style.left=
+Math.random()*80+"%";
+
+
+box.style.top=
+Math.random()*80+"%";
+
+
+document.body.appendChild(box);
+
+
+}
+
+
+
+setTimeout(()=>{
+
+
+document.querySelectorAll(".fake")
+.forEach(e=>e.remove());
+
+
+document.body.classList.remove("danger");
+
+
+final.style.display="block";
+
+
+},5000);
+
+
+
+}
+
+
+
+</script>
+
+
+</body>
+</html>
