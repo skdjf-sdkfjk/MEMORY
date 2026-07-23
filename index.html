@@ -1,7 +1,6 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
 <title>MEMORY_RECOVERY.exe</title>
 
@@ -14,12 +13,12 @@ box-sizing:border-box;
 body{
 margin:0;
 height:100vh;
-background:#000;
-color:#00ff88;
+background:#050014;
+color:#8ee7ff;
 font-family:"Courier New",monospace;
 display:flex;
-align-items:center;
 justify-content:center;
+align-items:center;
 overflow:hidden;
 }
 
@@ -29,34 +28,34 @@ content:"";
 position:fixed;
 inset:0;
 background:
-repeating-linear-gradient(
-0deg,
-rgba(0,255,120,.05),
-rgba(0,255,120,.05) 1px,
-transparent 2px
+linear-gradient(
+rgba(80,150,255,.08) 1px,
+transparent 1px
 );
+background-size:100% 4px;
 pointer-events:none;
 }
 
 
 
-.screen{
+.terminal{
 
-width:750px;
-height:500px;
-background:#050505;
-border:3px solid #00ff88;
+width:800px;
+height:520px;
+background:#090018;
+border:2px solid #8ee7ff;
+box-shadow:
+0 0 25px #5b6cff;
 padding:20px;
-box-shadow:0 0 30px #00ff88;
 
 }
 
 
 
-.title{
+.header{
 
-background:#00ff88;
-color:#000;
+background:#8ee7ff;
+color:#090018;
 padding:10px;
 font-weight:bold;
 
@@ -64,10 +63,77 @@ font-weight:bold;
 
 
 
-.window{
+.menu{
 
-text-align:center;
-margin-top:50px;
+margin-top:15px;
+border-bottom:1px solid #8ee7ff;
+padding-bottom:10px;
+
+}
+
+
+
+.menu span{
+
+margin-right:25px;
+
+}
+
+
+
+.content{
+
+display:flex;
+height:380px;
+margin-top:20px;
+
+}
+
+
+
+.files{
+
+width:35%;
+border-right:1px solid #8ee7ff;
+padding:15px;
+
+}
+
+
+
+.file{
+
+padding:12px;
+cursor:pointer;
+border:1px solid transparent;
+
+}
+
+
+
+.file:hover{
+
+border:1px solid #8ee7ff;
+background:#11102b;
+
+}
+
+
+
+.main{
+
+flex:1;
+padding:20px;
+
+}
+
+
+
+.card{
+
+border:1px solid #8ee7ff;
+padding:20px;
+margin-bottom:20px;
 
 }
 
@@ -75,12 +141,10 @@ margin-top:50px;
 
 button{
 
-background:#000;
-color:#00ff88;
-border:2px solid #00ff88;
-padding:15px 40px;
-font-family:inherit;
-font-size:18px;
+background:transparent;
+border:1px solid #8ee7ff;
+color:#8ee7ff;
+padding:12px 30px;
 cursor:pointer;
 
 }
@@ -88,19 +152,8 @@ cursor:pointer;
 
 button:hover{
 
-background:#00ff88;
-color:#000;
-
-}
-
-
-
-.bar{
-
-width:80%;
-height:20px;
-border:1px solid #00ff88;
-margin:30px auto;
+background:#8ee7ff;
+color:#090018;
 
 }
 
@@ -108,17 +161,26 @@ margin:30px auto;
 
 .progress{
 
-width:0%;
-height:100%;
-background:#00ff88;
+height:15px;
+border:1px solid #8ee7ff;
+margin-top:20px;
 
 }
 
 
 
-#scan,
-#warning,
-#final{
+.bar{
+
+height:100%;
+width:0%;
+background:#8ee7ff;
+
+}
+
+
+
+#restore,
+#complete{
 
 display:none;
 
@@ -126,19 +188,35 @@ display:none;
 
 
 
-.warning{
+.fragment{
 
-color:red;
-font-size:40px;
-animation:blink .2s infinite;
+font-size:30px;
+color:white;
+animation:float 1s infinite alternate;
 
 }
 
 
 
-.glitch{
+@keyframes float{
 
-animation:glitch .15s infinite;
+from{
+opacity:.5;
+}
+
+to{
+opacity:1;
+}
+
+}
+
+
+
+.future{
+
+font-size:32px;
+color:#fff;
+animation:blink 1s infinite;
 
 }
 
@@ -154,112 +232,57 @@ opacity:0;
 
 
 
-@keyframes glitch{
-
-0%{
-transform:translate(3px);
-text-shadow:5px 0 red;
-}
-
-50%{
-transform:translate(-4px);
-text-shadow:-5px 0 blue;
-}
-
-100%{
-transform:translate(0);
-}
-
-}
-
-
-
-.danger{
-
-animation:shake .1s infinite;
-
-}
-
-
-
-@keyframes shake{
-
-0%{
-transform:translate(3px);
-}
-
-50%{
-transform:translate(-3px);
-}
-
-100%{
-transform:translate(0);
-}
-
-}
-
-
-
-.fake{
-
-position:absolute;
-border:2px solid red;
-background:black;
-color:red;
-padding:15px;
-box-shadow:0 0 20px red;
-
-}
-
-
-
-.finalText{
-
-font-size:30px;
-color:white;
-animation:blink 1s infinite;
-
-}
-
-
-
 </style>
 
 </head>
 
-
 <body>
 
 
-<div class="screen">
+<div class="terminal">
 
 
-<div class="title">
-
+<div class="header">
 MEMORY_RECOVERY.exe
+</div>
+
+
+<div class="menu">
+
+FILE &nbsp;&nbsp;
+MEMORY &nbsp;&nbsp;
+ARCHIVE &nbsp;&nbsp;
+SYSTEM
 
 </div>
 
 
 
-<div class="window" id="home">
+<div class="content">
 
 
-<h1>
-MEMORY RECOVERY SYSTEM
-</h1>
+<div class="files">
 
 
-<p>
-Deleted memories may be recovered.
-</p>
+<h3>
+MEMORY STORAGE
+</h3>
 
 
-<button onclick="startRecovery()">
+<div class="file" onclick="openFile(1)">
+📁 FRAGMENT_001
+</div>
 
-START RECOVERY
 
-</button>
+<div class="file" onclick="openFile(2)">
+📁 FRAGMENT_002
+</div>
+
+
+<div class="file" onclick="openFile(3)">
+📁 UNKNOWN_MEMORY
+</div>
+
 
 
 </div>
@@ -267,72 +290,56 @@ START RECOVERY
 
 
 
-<div class="window" id="scan">
+<div class="main">
+
+
+<div class="card" id="start">
 
 
 <h2>
-Recovering Memory...
-</h2>
-
-
-<p id="status">
-
-Searching deleted files...
-
-</p>
-
-
-<div class="bar">
-
-<div class="progress" id="progress">
-
-</div>
-
-</div>
-
-
-</div>
-
-
-
-
-
-<div class="window" id="warning">
-
-
-<h1 class="warning">
-
-WARNING
-
-</h1>
-
-
-<h2>
-
-UNKNOWN MEMORY FOUND
-
+MEMORY DATABASE
 </h2>
 
 
 <p>
-
-This file was deleted intentionally.
-
+Lost memories detected.
 </p>
 
 
 <p>
-
-Continue recovery?
-
+Select a fragment.
 </p>
 
 
-<button onclick="continueRecovery()">
+</div>
 
-YES
 
-</button>
+
+<div class="card" id="restore">
+
+
+<h2>
+RESTORING MEMORY
+</h2>
+
+
+<div class="fragment">
+
+MEMORY FRAGMENT
+
+</div>
+
+
+<p id="info">
+Connecting data...
+</p>
+
+
+<div class="progress">
+
+<div class="bar" id="bar"></div>
+
+</div>
 
 
 </div>
@@ -340,28 +347,26 @@ YES
 
 
 
+<div class="card" id="complete">
 
 
-<div class="window" id="final">
+<h1 class="future">
 
-
-<h1 class="finalText glitch">
-
-MEMORY RESTORED
+RECOVERY COMPLETE
 
 </h1>
 
 
 <p>
 
-The past was not deleted.
+FILE : FIRST_CONTACT.dat
 
 </p>
 
 
 <p>
 
-It was hidden.
+DATE : UNKNOWN
 
 </p>
 
@@ -369,104 +374,112 @@ It was hidden.
 <br>
 
 
-<h2>
+<h3>
 
-WELCOME BACK.
+THIS MEMORY BELONGS TO THE FUTURE.
 
-</h2>
+</h3>
+
+
+</div>
+
+
+
+</div>
 
 
 </div>
 
 
 
-
 </div>
-
-
 
 
 
 <script>
 
 
-let progress=document.getElementById("progress");
-
-let status=document.getElementById("status");
+let selected=false;
 
 
-function startRecovery(){
+function openFile(num){
 
 
-home.style.display="none";
+if(selected)return;
 
-scan.style.display="block";
+selected=true;
 
 
-let count=0;
+document.getElementById("start").style.display="none";
+
+document.getElementById("restore").style.display="block";
+
+
+
+let bar=document.getElementById("bar");
+
+let info=document.getElementById("info");
+
+
+let value=0;
 
 
 
 let timer=setInterval(()=>{
 
 
-count+=Math.random()*8;
+value+=5;
 
 
-progress.style.width=count+"%";
+bar.style.width=value+"%";
 
 
 
-if(count<30){
+if(value<30){
 
-status.innerHTML=
-"Searching deleted memories...";
-
-}
-
-
-else if(count<60){
-
-status.innerHTML=
-"Finding memory fragments...";
+info.innerHTML=
+"Searching memory fragments...";
 
 }
 
+else if(value<60){
 
-else if(count<90){
-
-status.innerHTML=
-"WARNING : Unknown file detected";
+info.innerHTML=
+"Rebuilding deleted data...";
 
 }
 
+else if(value<90){
+
+info.innerHTML=
+"Connecting unknown memories...";
+
+}
 
 else{
 
-status.innerHTML=
-"Recovering forbidden memory...";
+info.innerHTML=
+"WARNING : Future data detected.";
 
 }
 
 
 
-if(count>=100){
+if(value>=100){
 
 
 clearInterval(timer);
 
 
-
 setTimeout(()=>{
 
 
-scan.style.display="none";
+document.getElementById("restore").style.display="none";
 
-warning.style.display="block";
+document.getElementById("complete").style.display="block";
 
 
-},1200);
-
+},1000);
 
 
 }
@@ -474,81 +487,6 @@ warning.style.display="block";
 
 
 },300);
-
-
-}
-
-
-
-
-function continueRecovery(){
-
-
-warning.style.display="none";
-
-
-document.body.classList.add("danger");
-
-
-
-let messages=[
-
-"MEMORY FILE CORRUPTED",
-
-"UNKNOWN DATA FOUND",
-
-"ACCESSING HIDDEN PAST",
-
-"FILE SHOULD NOT EXIST",
-
-"RECOVERY FAILED"
-
-];
-
-
-
-for(let i=0;i<6;i++){
-
-
-let box=document.createElement("div");
-
-
-box.className="fake";
-
-
-box.innerHTML=
-messages[Math.floor(Math.random()*messages.length)];
-
-
-box.style.left=
-Math.random()*80+"%";
-
-
-box.style.top=
-Math.random()*80+"%";
-
-
-document.body.appendChild(box);
-
-
-}
-
-
-
-setTimeout(()=>{
-
-
-document.querySelectorAll(".fake")
-.forEach(e=>e.remove());
-
-
-document.body.classList.remove("danger");
-
-
-final.style.display="block";
-
-
-},5000);
 
 
 
