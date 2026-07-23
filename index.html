@@ -1,151 +1,326 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-
 <meta charset="UTF-8">
-<title>Memory Reconstruction</title>
+<title>기억 복원 시스템</title>
 
 <style>
 
 *{
+margin:0;
+padding:0;
 box-sizing:border-box;
+font-family:"Pretendard","Segoe UI",sans-serif;
 }
 
+
 body{
-margin:0;
+
 height:100vh;
+overflow:hidden;
+
 background:
-radial-gradient(circle at center,#172554,#020617 60%);
-font-family:'Segoe UI',sans-serif;
-color:#dbeafe;
+radial-gradient(circle at center,#1e3a8a,#020617 70%);
+
+color:white;
+
 display:flex;
 justify-content:center;
 align-items:center;
-overflow:hidden;
+
 }
 
 
-/* 홀로그램 빛 */
 
-body:before{
+/* 배경 입자 */
+
+body::before{
+
 content:"";
+
 position:absolute;
-width:600px;
-height:600px;
-border-radius:50%;
-background:#38bdf8;
-filter:blur(150px);
+
+width:100%;
+height:100%;
+
+background-image:
+radial-gradient(#38bdf8 1px,transparent 1px);
+
+background-size:40px 40px;
+
 opacity:.15;
-}
 
-
-
-/* 메인 AR 공간 */
-
-.ar{
-width:850px;
-height:600px;
-position:relative;
-}
-
-
-
-/* 중앙 홀로그램 */
-
-.holo{
-
-position:absolute;
-left:50%;
-top:50%;
-transform:translate(-50%,-50%);
-
-width:330px;
-height:330px;
-
-border-radius:50%;
-
-border:2px solid #38bdf8;
-
-box-shadow:
-0 0 40px #38bdf8,
-inset 0 0 50px #38bdf8;
-
-animation:rotate 8s linear infinite;
+animation:move 15s linear infinite;
 
 }
 
 
 
-@keyframes rotate{
+@keyframes move{
 
 from{
-transform:translate(-50%,-50%) rotate(0deg);
+transform:translateY(0);
 }
 
 to{
-transform:translate(-50%,-50%) rotate(360deg);
+transform:translateY(40px);
 }
 
 }
 
 
 
-/* UI 패널 */
 
-.panel{
+
+.system{
+
+width:950px;
+height:620px;
+
+position:relative;
+
+}
+
+
+
+
+
+.header{
 
 position:absolute;
 
-background:rgba(15,23,42,.65);
-
-backdrop-filter:blur(15px);
-
-border:1px solid rgba(56,189,248,.5);
-
-border-radius:20px;
-
-padding:25px;
-
-box-shadow:0 0 30px rgba(56,189,248,.2);
-
-}
-
-
-
-.left{
-left:0;
-top:80px;
-width:230px;
-}
-
-
-.right{
-right:0;
-top:120px;
-width:230px;
-}
-
-
-
-.title{
-
-position:absolute;
-top:30px;
+top:20px;
 left:50%;
+
 transform:translateX(-50%);
 
-font-size:28px;
+text-align:center;
+
 letter-spacing:4px;
 
 }
 
 
 
-.status{
+.header h1{
 
-color:#38bdf8;
+font-size:32px;
+
+color:#7dd3fc;
 
 }
+
+
+
+.header p{
+
+font-size:14px;
+
+opacity:.7;
+
+}
+
+
+
+
+
+.panel{
+
+position:absolute;
+
+background:
+
+rgba(15,23,42,.55);
+
+border:
+
+1px solid rgba(125,211,252,.4);
+
+backdrop-filter:blur(20px);
+
+border-radius:20px;
+
+padding:25px;
+
+box-shadow:
+
+0 0 30px rgba(56,189,248,.2);
+
+}
+
+
+
+.left{
+
+left:0;
+
+top:160px;
+
+width:270px;
+
+}
+
+
+
+.right{
+
+right:0;
+
+top:160px;
+
+width:270px;
+
+}
+
+
+
+
+
+.panel h2{
+
+font-size:18px;
+
+color:#7dd3fc;
+
+margin-bottom:20px;
+
+}
+
+
+
+
+
+.data{
+
+margin:15px 0;
+
+}
+
+
+
+.bar{
+
+height:8px;
+
+background:#1e293b;
+
+border-radius:20px;
+
+overflow:hidden;
+
+margin-top:7px;
+
+}
+
+
+
+.fill{
+
+height:100%;
+
+background:#38bdf8;
+
+}
+
+
+
+
+
+/* 홀로그램 */
+
+.core{
+
+position:absolute;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+width:280px;
+height:280px;
+
+border-radius:50%;
+
+border:2px solid #38bdf8;
+
+box-shadow:
+
+0 0 40px #38bdf8,
+
+inset 0 0 40px #38bdf8;
+
+animation:spin 8s linear infinite;
+
+}
+
+
+
+.core::after{
+
+content:"";
+
+position:absolute;
+
+width:180px;
+height:180px;
+
+left:50%;
+top:50%;
+
+transform:translate(-50%,-50%);
+
+border-radius:50%;
+
+border:1px solid #a5f3fc;
+
+}
+
+
+
+@keyframes spin{
+
+100%{
+
+transform:translate(-50%,-50%) rotate(360deg);
+
+}
+
+}
+
+
+
+
+
+.scan{
+
+position:absolute;
+
+left:50%;
+bottom:100px;
+
+transform:translateX(-50%);
+
+width:300px;
+
+height:4px;
+
+background:#0f172a;
+
+}
+
+
+
+.scan div{
+
+height:100%;
+
+width:0%;
+
+background:#38bdf8;
+
+}
+
 
 
 
@@ -153,15 +328,17 @@ button{
 
 margin-top:20px;
 
-padding:12px 30px;
+width:100%;
+
+padding:14px;
 
 border-radius:30px;
 
-border:1px solid #38bdf8;
-
 background:transparent;
 
-color:#dbeafe;
+border:1px solid #38bdf8;
+
+color:white;
 
 cursor:pointer;
 
@@ -179,43 +356,9 @@ color:#020617;
 
 
 
-.scan{
-
-position:absolute;
-
-bottom:50px;
-
-left:50%;
-
-transform:translateX(-50%);
-
-width:350px;
-
-height:6px;
-
-background:#1e293b;
-
-border-radius:10px;
-
-overflow:hidden;
-
-}
 
 
-
-.progress{
-
-height:100%;
-
-width:0%;
-
-background:#38bdf8;
-
-}
-
-
-
-#result{
+#complete{
 
 display:none;
 
@@ -223,9 +366,9 @@ position:absolute;
 
 inset:0;
 
-background:rgba(2,6,23,.8);
+background:rgba(2,6,23,.85);
 
-backdrop-filter:blur(10px);
+backdrop-filter:blur(15px);
 
 align-items:center;
 
@@ -239,13 +382,13 @@ text-align:center;
 
 
 
-.resultText{
+#complete h1{
 
-font-size:40px;
+font-size:45px;
 
-color:#38bdf8;
+color:#7dd3fc;
 
-animation:pulse 1.5s infinite;
+animation:pulse 1s infinite;
 
 }
 
@@ -254,7 +397,9 @@ animation:pulse 1.5s infinite;
 @keyframes pulse{
 
 50%{
-opacity:.4;
+
+opacity:.5;
+
 }
 
 }
@@ -269,50 +414,74 @@ opacity:.4;
 <body>
 
 
-<div class="ar">
+<div class="system">
 
 
-<div class="title">
-MEMORY RECONSTRUCTION SYSTEM
+<div class="header">
+
+<h1>
+MEMORY RECONSTRUCTION
+</h1>
+
+<p>
+AI 기억 복원 연구 시스템 / VERSION 2026
+</p>
+
 </div>
 
-
-
-<div class="holo"></div>
 
 
 
 <div class="panel left">
 
-<h3>
-NEURAL SCAN
-</h3>
+
+<h2>
+🧬 대상 분석
+</h2>
 
 
-<p>
-Connection
-</p>
+<div class="data">
 
-<p class="status">
-● STABLE
-</p>
+시각 기억
 
+<div class="bar">
+<div class="fill" style="width:92%"></div>
+</div>
 
-<p>
-Emotion Data
-<br>
-82%
-</p>
+</div>
 
 
-<p>
-Visual Data
-<br>
-91%
-</p>
+
+<div class="data">
+
+감정 데이터
+
+<div class="bar">
+<div class="fill" style="width:76%"></div>
+</div>
+
+</div>
+
+
+
+<div class="data">
+
+음성 기록
+
+<div class="bar">
+<div class="fill" style="width:88%"></div>
+</div>
+
+</div>
 
 
 </div>
+
+
+
+
+
+<div class="core"></div>
 
 
 
@@ -321,84 +490,88 @@ Visual Data
 <div class="panel right">
 
 
-<h3>
-MEMORY DATA
-</h3>
+<h2>
+📡 기억 정보
+</h2>
 
 
 <p>
-Fragment : 01</p>
+상태 : 분석 완료
+</p>
+
+<br>
 
 <p>
-Location :
-UNKNOWN
+기억 조각 : 01
+</p>
+
+<p>
+발견 위치 : 미확인
+</p>
+
+<p>
+시간 정보 : 삭제됨
 </p>
 
 
-<p>
-Date :
-HIDDEN
-</p>
 
+<button onclick="restore()">
 
-<button onclick="start()">
-
-RECONSTRUCT
+기억 복원 시작
 
 </button>
 
 
-</div>
 
+</div>
 
 
 
 
 <div class="scan">
 
-<div class="progress" id="progress">
+<div id="progress"></div>
 
 </div>
 
-</div>
 
 
 
+<div id="complete">
 
 
-<div id="result">
-
-
-<div class="resultText">
-
-MEMORY RESTORED
-
-</div>
+<h1>
+복원 완료
+</h1>
 
 
 <br>
 
-
 <p>
-
-A memory has been recovered.
-
+삭제된 기억 데이터가 복구되었습니다.
 </p>
 
 
+<br>
+
 <p>
-
-But this memory belongs to the future.
-
+하지만 이상한 점이 발견되었습니다.
 </p>
+
+
+<br>
+
+<h2>
+"이 기억은 아직 일어나지 않은 미래입니다."
+</h2>
 
 
 </div>
 
 
 
-</div>
 
+</div>
 
 
 
@@ -406,7 +579,7 @@ But this memory belongs to the future.
 <script>
 
 
-function start(){
+function restore(){
 
 
 let bar=document.getElementById("progress");
@@ -419,9 +592,7 @@ let timer=setInterval(()=>{
 
 value+=2;
 
-
 bar.style.width=value+"%";
-
 
 
 if(value>=100){
@@ -430,28 +601,24 @@ if(value>=100){
 clearInterval(timer);
 
 
-
 setTimeout(()=>{
 
 
-document.getElementById("result")
+document.getElementById("complete")
 .style.display="flex";
 
 
-},800);
-
-
-
-}
-
-
-
-},50);
-
+},1000);
 
 
 }
 
+
+},40);
+
+
+
+}
 
 
 </script>
